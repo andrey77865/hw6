@@ -4,7 +4,7 @@ import shutil
 from sys import argv
 
 
-argv_path = Path("/Users/uzver/Desktop/trash/")  # argv[1]
+argv_path = Path(argv[1])
 if not Path(argv_path).exists():
     print("Path doesn't exist, please try again")
     exit()
@@ -187,3 +187,6 @@ def sorter(path=argv_path):
             os.removedirs(p)
 
     return images, videos, documents, music, archives, unknown_files, known_extensions, unknown_extensions
+
+
+sorter()
