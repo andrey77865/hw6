@@ -110,20 +110,10 @@ def normalize(filename):
 def sorter(path=argv_path):
     """
     Recursively walks in the target folder, moves files to appropriate folders
-    and returns information about all files.
 
         Parameter:
             path (str): Path to target folder
 
-        Returns a tupple with folowing variables:
-            images (list): Names of image files
-            videos (list): Names of video files
-            documents (list): Names of document files
-            music (list): Names of music files
-            archives (list): Names of archives files
-            unknown_files (list): Names of unknown files files
-            known_extensions (set): All known files extensions
-            unknown_extensions (set): All unknown files extensions
     """
 
     target_dir = Path(path)
@@ -132,33 +122,33 @@ def sorter(path=argv_path):
         if file.is_file():
             # If image
             if file.suffix.lower() in img_ext:
-                images.append(file)
+                images.append(file.name)
                 known_extensions.add(file.suffix)
                 category_dir = argv_path / "images"
             # If video
             elif file.suffix.lower() in vid_ext:
-                videos.append(file)
+                videos.append(file.name)
                 known_extensions.add(file.suffix)
                 category_dir = argv_path / "videos"
             # If document
             elif file.suffix.lower() in doc_ext:
-                documents.append(file)
+                documents.append(file.name)
                 known_extensions.add(file.suffix)
                 category_dir = argv_path / "documents"
             # If music
             elif file.suffix.lower() in music_ext:
-                music.append(file)
+                music.append(file.name)
                 known_extensions.add(file.suffix)
                 category_dir = argv_path / "music"
             # If archive
             elif file.suffix.lower() in arch_ext:
-                archives.append(file)
+                archives.append(file.name)
                 known_extensions.add(file.suffix)
                 category_dir = argv_path / "archives"
                 shutil.unpack_archive(file, category_dir/file.stem)
             # If unknown
             else:
-                unknown_files.append(file)
+                unknown_files.append(file.name)
                 unknown_extensions.add(file.suffix)
                 category_dir = argv_path / "unknown"
 
@@ -186,7 +176,12 @@ def sorter(path=argv_path):
         if p.is_dir() and len(list(p.iterdir())) == 0:
             os.removedirs(p)
 
-    return images, videos, documents, music, archives, unknown_files, known_extensions, unknown_extensions
+    return
 
 
 sorter()
+print(
+    f"Images: {images}\nVideos: {videos}\nDocuments: {documents}\n"
+    f"Music: {music}\nArchives: {archives}\nUnknown files: {unknown_files}\n"
+    f"Known extensions: {known_extensions}\nUnknown extensions: {unknown_extensions}")
+print("\nSorted finished!")
